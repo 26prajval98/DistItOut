@@ -169,7 +169,7 @@ class Find extends Component {
 				<Grid item>
 					<Box display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
 						<Box p={1}>
-							<Typography variant="h4" align="justify">Here are our top picks</Typography>
+							<Typography variant="h5" align="justify">Here are our top picks</Typography>
 						</Box>
 					</Box>
 				</Grid>
