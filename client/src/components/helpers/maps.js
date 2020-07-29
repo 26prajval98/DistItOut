@@ -1,5 +1,5 @@
 export default function loadBingApi() {
-	let url = "http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AoUmJwkCEO-LcuZPDFTJQrxCWMp6su1ujEntp66HHnL_TZpQWxGl1MoiHAGwzWVi"
+	let url = "https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AoUmJwkCEO-LcuZPDFTJQrxCWMp6su1ujEntp66HHnL_TZpQWxGl1MoiHAGwzWVi"
 
 	return new Promise((resolve, reject) => {
 		const script = document.createElement("script");
