@@ -58,7 +58,7 @@ class Find extends Component {
 					name: resp[i].name,
 					location: location,
 					numPeople: resp[i].numPeople,
-					phoneNumber: resp[i].PhoneNumber,
+					phoneNumber: resp[i].phoneNumber,
 					index: i + 1
 				})
 

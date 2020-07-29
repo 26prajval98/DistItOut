@@ -1,5 +1,7 @@
 import find from './find'
+import home from './home'
 
 export {
-	find
+	find,
+	home
 }
