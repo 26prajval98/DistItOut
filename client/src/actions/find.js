@@ -53,6 +53,18 @@ const resetUpdateMap = ()=>{
     })
 }
 
+const startLoading = ()=>{
+	return store.dispatch({
+        type: "START_LOADING",
+    })
+}
+
+const doneLoading = ()=>{
+	return store.dispatch({
+        type: "DONE_LOADING",
+    })
+}
+
 const find = {
 	setCategory,
 	setUserLocation,
@@ -61,7 +73,9 @@ const find = {
 	addPlace,
 	removePlaces,
 	selectDestination,
-	resetUpdateMap
+	resetUpdateMap,
+	startLoading,
+	doneLoading,
 }
 
 export default find

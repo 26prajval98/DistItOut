@@ -2,6 +2,7 @@ const valid = ['shop', 'recreation', 'eat']
 
 const findReducer = (
 	state = {
+		loading : false,
 		category: "Shop",
 		redirect: false,
 		userLocation: undefined,
@@ -60,6 +61,16 @@ const findReducer = (
 
 		case "RESET_UPDATE_MAP" : {
 			state = { ...state, updateMap : false}
+			return state
+		}
+
+		case "START_LOADING" : {
+			state = { ...state, loading : true}
+			return state
+		}
+
+		case "DONE_LOADING" : {
+			state = { ...state, loading : false}
 			return state
 		}
 

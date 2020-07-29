@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
@@ -10,6 +9,7 @@ import { PageNotFound, Home, Find } from './components'
 
 class App extends Component {
 	render() {
+		window.userLocation = { latitude: 47.602038, longitude: -122.333964 }
 		return (
 			<Provider store={Store}>
 				<div>

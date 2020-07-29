@@ -112,13 +112,28 @@ class Find extends Component {
 	}
 
 	GenerateLink(location1, location2) {
-		return `https://bing.com/maps/default.aspx?rtp=pos.${location1.latitude}_${location1.longitude}~pos.${location2.latitude}_${location2.longitude}`
+		return `http://bing.com/maps/default.aspx?rtp=pos.${location1.latitude}_${location1.longitude}~pos.${location2.latitude}_${location2.longitude}`
 	}
 
 	OpenLink(location1) {
 		return location2 => {
 			var url = this.GenerateLink(location1, location2)
 			window.open(url, '_blank');
+		}
+	}
+
+	Distance(location1){
+		return location2 => {
+			var lat1 = location1.latitude
+			var lat2 = location2.latitude
+			var lon1 = location1.longitude
+			var lon2 = location2.longitude
+			var p = 0.017453292519943295;
+			var c = Math.cos;
+			var a = 0.5 - c((lat2 - lat1) * p) / 2 +
+				c(lat1 * p) * c(lat2 * p) *
+				(1 - c((lon2 - lon1) * p)) / 2;
+			return 12742 * Math.asin(Math.sqrt(a));
 		}
 	}
 
@@ -133,7 +148,7 @@ class Find extends Component {
 			.then(() => {
 				Microsoft = window.Microsoft
 
-				var location = new window.Microsoft.Maps.Location(47.602038, -122.333964)
+				var location = new window.Microsoft.Maps.Location(window.userLocation.latitude, window.userLocation.longitude)
 
 				find.setUserLocation(location)
 
@@ -155,6 +170,10 @@ class Find extends Component {
 			})
 	}
 
+	componentWillUnmount(){
+		find.removePins()
+		find.removePlaces()
+	}
 
 	render() {
 		if (this.props.updateMap) {
@@ -174,10 +193,10 @@ class Find extends Component {
 					</Box>
 				</Grid>
 				<Grid item>
-					<Paper id="showMap" style={{ position: 'relative', minWidth: "100px", width: '80vw', height: '60vh', margin: 'auto', marginTop: "10px", maxHeight: "400px" }} />
+					<Paper id="showMap" style={{ position: 'relative', minWidth: "100px", width: '80vw', height: '50vh', margin: 'auto', marginTop: "10px", maxHeight: "400px" }} />
 				</Grid>
 				<Grid item>
-					<ListItems open={this.OpenLink(this.props.userLocation)} items={this.props.places} />
+					<ListItems dis={this.Distance(this.props.userLocation)} open={this.OpenLink(this.props.userLocation)} items={this.props.places} />
 				</Grid>
 				{this.props.redirect ? <Redirect to="Error" /> : <Fragment />}
 			</Grid>
