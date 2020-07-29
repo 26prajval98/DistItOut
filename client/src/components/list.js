@@ -34,7 +34,7 @@ export default function ListItems(props) {
 											className={classes.inline}
 											color="textPrimary">
 											
-											{`Distance : ${props.dis(val.location).toFixed(2)}kms`}
+											{`Distance : ${val.distance.toFixed(2)}kms`}
 											<br />
 											{`Average human density : ${val.numPeople.toFixed(3)} humans/sq meters`}
 											<br />

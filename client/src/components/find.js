@@ -23,12 +23,17 @@ function mapStateToProps(state) {
 
 var Microsoft, directionsManager, resp;
 
+const findHeading = {
+	shop: "Top places to shop",
+	recreation: "Top places to have fun",
+	eat: "Top places to eat"
+}
 
 class Find extends Component {
 	async FetchListItems() {
 		try {
 			var entityType
-			
+
 			switch (this.props.category.toLowerCase()) {
 				case "shop":
 					entityType = "stores"
@@ -59,6 +64,7 @@ class Find extends Component {
 					location: location,
 					numPeople: resp[i].numPeople,
 					phoneNumber: resp[i].phoneNumber,
+					distance: resp[i].distance,
 					index: i + 1
 				})
 
@@ -74,6 +80,7 @@ class Find extends Component {
 			}, this.props.pins)
 		}
 		catch (e) {
+			console.log(e)
 			find.setCategory("Error")
 		}
 	}
@@ -126,24 +133,9 @@ class Find extends Component {
 		}
 	}
 
-	Distance(location1) {
-		return location2 => {
-			var lat1 = location1.latitude
-			var lat2 = location2.latitude
-			var lon1 = location1.longitude
-			var lon2 = location2.longitude
-			var p = 0.017453292519943295;
-			var c = Math.cos;
-			var a = 0.5 - c((lat2 - lat1) * p) / 2 +
-				c(lat1 * p) * c(lat2 * p) *
-				(1 - c((lon2 - lon1) * p)) / 2;
-			return 12742 * Math.asin(Math.sqrt(a));
-		}
-	}
-
 	componentDidMount() {
 		var filters = qs.parse(this.props.location.search)
-		
+
 		find.startLoading()
 
 		find.setCategory(filters.category)
@@ -198,7 +190,7 @@ class Find extends Component {
 							<Grid item>
 								<Box display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
 									<Box p={1}>
-										<Typography variant="h5" align="justify">Here are our top picks</Typography>
+										<Typography variant="h5" align="justify">{findHeading[this.props.category.toLowerCase()]}</Typography>
 									</Box>
 								</Box>
 							</Grid>
@@ -206,7 +198,7 @@ class Find extends Component {
 								<Paper id="showMap" style={{ position: 'relative', minWidth: "100px", width: '80vw', height: '50vh', margin: 'auto', marginTop: "10px", maxHeight: "400px" }} />
 							</Grid>
 							<Grid item>
-								<ListItems dis={this.Distance(this.props.userLocation)} open={this.OpenLink(this.props.userLocation)} items={this.props.places} />
+								<ListItems open={this.OpenLink(this.props.userLocation)} items={this.props.places} />
 							</Grid>
 							{this.props.redirect ? <Redirect to="Error" /> : <Fragment />}
 						</Grid >

@@ -3,6 +3,8 @@ import qs from "querystring"
 
 var url = "https://distitout.azurewebsites.net/";
 
+// var url = "http://localhost:5001/"
+
 const httpGet = (path, data) => {
 	return axios.get(url + path + "?" + qs.stringify(data))
 }
