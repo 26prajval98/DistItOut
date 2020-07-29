@@ -9,6 +9,8 @@ import qs from 'query-string'
 
 import ListItems from './list'
 
+import Loading from './loading'
+
 import loadBingApi from './helpers/maps';
 
 import { find } from "../actions"
@@ -26,7 +28,7 @@ class Find extends Component {
 	async FetchListItems() {
 		try {
 			var entityType
-
+			
 			switch (this.props.category.toLowerCase()) {
 				case "shop":
 					entityType = "stores"
@@ -49,13 +51,14 @@ class Find extends Component {
 			})
 
 			resp = resp.data
-			for (var i = 0; i < resp.resourceSets[0].resources.length; ++i) {
-				var location = new window.Microsoft.Maps.Location(resp.resourceSets[0].resources[i].point.coordinates[0], resp.resourceSets[0].resources[i].point.coordinates[1])
+			for (var i = 0; i < resp.length; ++i) {
+				var location = new window.Microsoft.Maps.Location(resp[i].latitude, resp[i].longitude)
 
 				find.addPlace({
-					name: resp.resourceSets[0].resources[i].name,
+					name: resp[i].name,
 					location: location,
-					phoneNumber: resp.resourceSets[0].resources[i].PhoneNumber,
+					numPeople: resp[i].numPeople,
+					phoneNumber: resp[i].PhoneNumber,
 					index: i + 1
 				})
 
@@ -112,7 +115,8 @@ class Find extends Component {
 	}
 
 	GenerateLink(location1, location2) {
-		return `http://bing.com/maps/default.aspx?rtp=pos.${location1.latitude}_${location1.longitude}~pos.${location2.latitude}_${location2.longitude}`
+		var initial = window.location.href.split(":")[0]
+		return `${initial}://bing.com/maps/default.aspx?rtp=pos.${location1.latitude}_${location1.longitude}~pos.${location2.latitude}_${location2.longitude}`
 	}
 
 	OpenLink(location1) {
@@ -122,7 +126,7 @@ class Find extends Component {
 		}
 	}
 
-	Distance(location1){
+	Distance(location1) {
 		return location2 => {
 			var lat1 = location1.latitude
 			var lat2 = location2.latitude
@@ -139,12 +143,14 @@ class Find extends Component {
 
 	componentDidMount() {
 		var filters = qs.parse(this.props.location.search)
-		console.log(filters)
+		
+		find.startLoading()
+
 		find.setCategory(filters.category)
 
 		window.httpGet = httpGet
 
-		loadBingApi()
+		loadBingApi(find.doneLoading)
 			.then(() => {
 				Microsoft = window.Microsoft
 
@@ -170,7 +176,7 @@ class Find extends Component {
 			})
 	}
 
-	componentWillUnmount(){
+	componentWillUnmount() {
 		find.removePins()
 		find.removePlaces()
 	}
@@ -184,22 +190,28 @@ class Find extends Component {
 			find.resetUpdateMap()
 		}
 		return (
-			<Grid container direction="column">
-				<Grid item>
-					<Box display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
-						<Box p={1}>
-							<Typography variant="h5" align="justify">Here are our top picks</Typography>
-						</Box>
-					</Box>
-				</Grid>
-				<Grid item>
-					<Paper id="showMap" style={{ position: 'relative', minWidth: "100px", width: '80vw', height: '50vh', margin: 'auto', marginTop: "10px", maxHeight: "400px" }} />
-				</Grid>
-				<Grid item>
-					<ListItems dis={this.Distance(this.props.userLocation)} open={this.OpenLink(this.props.userLocation)} items={this.props.places} />
-				</Grid>
-				{this.props.redirect ? <Redirect to="Error" /> : <Fragment />}
-			</Grid>
+			<div>
+				{
+					this.props.loading ?
+						<Loading /> :
+						< Grid container direction="column" >
+							<Grid item>
+								<Box display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
+									<Box p={1}>
+										<Typography variant="h5" align="justify">Here are our top picks</Typography>
+									</Box>
+								</Box>
+							</Grid>
+							<Grid item>
+								<Paper id="showMap" style={{ position: 'relative', minWidth: "100px", width: '80vw', height: '50vh', margin: 'auto', marginTop: "10px", maxHeight: "400px" }} />
+							</Grid>
+							<Grid item>
+								<ListItems dis={this.Distance(this.props.userLocation)} open={this.OpenLink(this.props.userLocation)} items={this.props.places} />
+							</Grid>
+							{this.props.redirect ? <Redirect to="Error" /> : <Fragment />}
+						</Grid >
+				}
+			</div>
 		)
 	}
 }
