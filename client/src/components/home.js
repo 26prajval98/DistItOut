@@ -20,7 +20,7 @@ class Home extends Component {
 		home.startLoading()
 		setTimeout(() => {
 			home.doneLoading()
-		}, 2000)
+		}, Math.random()*1000)
 	}
 
 	render() {

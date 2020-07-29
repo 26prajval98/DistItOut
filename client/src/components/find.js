@@ -3,7 +3,9 @@ import { Redirect } from 'react-router-dom'
 
 import { connect } from 'react-redux';
 
-import { Grid, Paper, Typography, Box } from '@material-ui/core'
+import { Grid, Paper, Typography, AppBar, Toolbar } from '@material-ui/core'
+import IconButton from "@material-ui/core/IconButton";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import qs from 'query-string'
 
@@ -181,6 +183,7 @@ class Find extends Component {
 
 			find.resetUpdateMap()
 		}
+
 		return (
 			<div>
 				{
@@ -188,11 +191,24 @@ class Find extends Component {
 						<Loading /> :
 						< Grid container direction="column" >
 							<Grid item>
-								<Box display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
-									<Box p={1}>
-										<Typography variant="h5" align="justify">{findHeading[this.props.category.toLowerCase()]}</Typography>
-									</Box>
-								</Box>
+
+								<div>
+									<AppBar position="static">
+										<Toolbar>
+											<IconButton
+												edge="start"
+												color="inherit"
+												aria-label="menu"
+												onClick={()=>{window.location.href = "/"}}
+											>
+												<ArrowBackIcon />
+											</IconButton>
+											<Typography variant="h5" align="justify">{findHeading[this.props.category.toLowerCase()]}</Typography>
+
+										</Toolbar>
+									</AppBar>
+								</div>
+
 							</Grid>
 							<Grid item>
 								<Paper id="showMap" style={{ position: 'relative', minWidth: "100px", width: '80vw', height: '50vh', margin: 'auto', marginTop: "10px", maxHeight: "400px" }} />
