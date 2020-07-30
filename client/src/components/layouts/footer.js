@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Tabs, Tab } from "@material-ui/core";
 import PersonPinIcon from '@material-ui/icons/PersonPin';
-import FavoriteSharpIcon from '@material-ui/icons/FavoriteSharp';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 
 const useStyles = makeStyles(theme => ({
 	appBar: {
@@ -31,7 +31,7 @@ export default function BottomAppBar(props) {
 				aria-label="icon label tabs example"
 			>
 				<Tab onClick={()=>{props.showPage(0)}} icon={<PersonPinIcon />} label="NEARBY" />
-				<Tab onClick={()=>{props.showPage(1)}} icon={<FavoriteSharpIcon />} label="COVID-19" />
+				<Tab onClick={()=>{props.showPage(1)}} icon={<TrendingUpIcon />} label="COVID-19" />
 			</Tabs>
 		</AppBar>
 	);
