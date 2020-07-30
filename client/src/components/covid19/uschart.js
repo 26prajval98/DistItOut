@@ -13,7 +13,7 @@ export default function USMap(props) {
 			<ReactTooltip>
 				{
 					<p>
-						{content["Name"]} <br />
+						{content["name"]} <br />
 						Positive : {content["positive"] ? content["positive"] : "-"} <br />
 						Increase : {content["positiveIncrease"] ? content["positiveIncrease"] : "-"} <br />
 						Total : {content["totalTestsViral"] ? content["totalTestsViral"] : "-"} <br />
