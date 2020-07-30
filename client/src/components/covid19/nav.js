@@ -5,7 +5,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import PublicIcon from '@material-ui/icons/Public';
 import NearMeIcon from '@material-ui/icons/NearMe';
-import SearchIcon from '@material-ui/icons/Search';
+// import SearchIcon from '@material-ui/icons/Search';
 import { covid } from '../../actions';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +34,7 @@ export default function ScrollableTabsButtonPrevent() {
             >
                 <Tab onClick={() => { covid.showPage(0) }} icon={<PublicIcon />} aria-label="World" />
                 <Tab onClick={() => { covid.showPage(1) }} icon={<NearMeIcon />} aria-label="Favorite" />
-                <Tab onClick={() => { covid.showPage(2) }} icon={<SearchIcon />} aria-label="Search" />
+                {/* <Tab onClick={() => { covid.showPage(2) }} icon={<SearchIcon />} aria-label="Search" /> */}
             </Tabs>
         </Paper>
     );

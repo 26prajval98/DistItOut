@@ -1,7 +1,7 @@
 const homeReducer = (
 	state = {
 		loading: false,
-		content : 0
+		content : 1
 	}, action) => {
 
 	switch (action.type) {

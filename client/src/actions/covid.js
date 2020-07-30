@@ -7,8 +7,16 @@ const showPage = (content)=>{
     })
 }
 
+const loadCovidUS = (dataUs)=>{
+	return store.dispatch({
+        type: "LOAD_DATA_COVID_US",
+        dataUs
+    })
+}
+
 const home = {
-    showPage,
+	showPage,
+	loadCovidUS
 }
 
 export default home
