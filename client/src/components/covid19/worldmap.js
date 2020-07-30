@@ -16,7 +16,7 @@ export default function WorldMap(props) {
 						{content["Country"]} <br />
 						Confirmed : {content["Confirmed"] ? content["Confirmed"] : "-"} <br />
 						Deaths : {content["Deaths"] ? content["Deaths"] : "-"} <br />
-						Recoverd : {content["Recoverd"] ? content["Recoverd"] : "-"} <br />
+						Recovered : {content["Recovered"] ? content["Recoverd"] : "-"} <br />
 						Active : {content["Active"] ? content["Active"] : "-"} <br />
 					</p>
 				}
