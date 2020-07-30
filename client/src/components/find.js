@@ -191,7 +191,6 @@ class Find extends Component {
 						<Loading /> :
 						< Grid container direction="column" >
 							<Grid item>
-
 								<div>
 									<AppBar position="static">
 										<Toolbar>
@@ -208,7 +207,6 @@ class Find extends Component {
 										</Toolbar>
 									</AppBar>
 								</div>
-
 							</Grid>
 							<Grid item>
 								<Paper id="showMap" style={{ position: 'relative', minWidth: "100px", width: '80vw', height: '50vh', margin: 'auto', marginTop: "10px", maxHeight: "400px" }} />

@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 	}
 });
 
-export default function Main() {
+export default function ContentNearby() {
 	var items = [
 		{
 			name: "Shop",
