@@ -3,7 +3,6 @@ import Carousel from '../helpers/carousel'
 import { Link } from 'react-router-dom'
 import { Button, Grid, Card, CardActions, CardActionArea, CardMedia, CardContent, Typography, Box } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
 
 import shop from "../../images/shop.jpg"
 import recreation from "../../images/recreation.jpg"
@@ -37,7 +36,7 @@ export default function ContentNearby() {
 		},
 		{
 			name: "Eat",
-			description: "Getting hungry or too bored to cook? Fulfil your food desires by clicking here.",
+			description: "Getting hungry ? Too bored to cook? Want tasty Food ? Fulfil your food desires by clicking here.",
 			img: eat
 		}
 	]
@@ -82,11 +81,15 @@ function MediaCard(props) {
 				</CardActionArea>
 
 				<CardActions>
-					<Link to={"/find?category=" + props.name} className={classes.link}>
-						<Button size="medium" color="primary" endIcon={<SearchIcon />}>
-							Find
-		  			</Button>
-					</Link>
+					<Grid container direction="row">
+						<Grid item xs={12}>
+							<Link to={"/find?category=" + props.name} className={classes.link}>
+								<Button variant="outlined" fullWidth color="primary">
+									Find
+								</Button>
+							</Link>
+						</Grid>
+					</Grid>
 				</CardActions>
 			</Card>
 		</Fragment>
