@@ -1,95 +1,67 @@
-import React from 'react';
-import Carousel from '../helpers/carousel'
-import {Link} from 'react-router-dom'
-import { Button, Grid, Card, CardActions, CardActionArea, CardMedia, CardContent, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
+import React, { useState, Fragment } from "react";
+import data from '../../data/countries.json'
+import { scaleLinear } from "d3-scale";
+import {
+	ComposableMap,
+	Geographies,
+	Geography,
+	Sphere,
+	ZoomableGroup,
+	Graticule
+} from "react-simple-maps";
 
-import shop from "../../images/shop.jpg"
-import recreation from "../../images/recreation.jpg"
-import eat from "../../images/eat.jpg"
+const geoUrl =
+	"https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
-export default function Main() {
-	var items = [
-		{
-			name: "Shop",
-			description: "Need to shop? No worries. Search for the best socially distanced shops near you.",
-			img: shop
-		},
-		{
-			name: "Recreation",
-			description: "Feeling bored? Want to have fun? Search for cool entertainment recreation activities here.",
-			img: recreation
-		},
-		{
-			name: "Eat",
-			description: "Getting hungry or too bored to cook? Fulfil your food desires by clicking here.",
-			img: eat
-		}
-	]
+const colorScale = scaleLinear()
+	.domain([0.29, 0.68])
+	.range(["#ffedea", "#ff5233"]);
 
-	return (
-		<Carousel>
-			{
-				items.map((item, i) => <Item key={i} item={item} />)
-			}
-		</Carousel>
-	)
-}
+const MapChart = () => {
 
-const useStyles = makeStyles({
-	root: {
-		marginTop: "40px",
-		marginLeft: "10px",
-		marginRight: "10px",
-	},
-	media: {
-		height: 200,
-	},
-	link : {
-		textDecoration : 'none'
+	const [position, setPosition] = useState({ coordinates: [0, 0], zoom: 1 });
+
+
+
+	function handleMoveEnd(position) {
+		setPosition(position);
 	}
-});
 
-function Item(props) {
 	return (
-		<Grid container direction="row" justify="center">
-			<Grid item xs={false} sm={4} />
-			<Grid item xs={12} sm={4}>
-				<MediaCard name={props.item.name} description={props.item.description} title={props.item.name} img={props.item.img} />
-			</Grid>
-			<Grid item xs={false} sm={4} />
-		</Grid>
-	)
-}
-
-function MediaCard(props) {
-	const classes = useStyles();
-	return (
-		<Card className={classes.root}>
-			<CardActionArea>
-				<CardMedia
-					className={classes.media}
-					image={props.img}
-					title={props.title}
-				/>
-				<CardContent>
-					<Typography gutterBottom variant="h5" component="h2">
-						{props.name}
-					</Typography>
-					<Typography variant="body2" color="textSecondary" component="p">
-						{props.description}
-					</Typography>
-				</CardContent>
-			</CardActionArea>
-
-			<CardActions>
-				<Link to={"/find?category="+props.name} className={classes.link}>
-					<Button size="medium" color="primary" endIcon={<SearchIcon />}>
-						Find
-		  			</Button>
-				</Link>
-			</CardActions>
-		</Card>
+		<Fragment>
+			<ComposableMap
+				projectionConfig={{
+					rotate: [-10, 0, 0],
+					scale: 147
+				}}
+			>
+				<ZoomableGroup
+					zoom={position.zoom}
+					center={position.coordinates}
+					onMoveEnd={handleMoveEnd}
+				>
+					<Sphere stroke="#E4E5E6" strokeWidth={0.5} />
+					<Graticule stroke="#E4E5E6" strokeWidth={0.5} />
+					{data.length > 0 && (
+						<Geographies geography={geoUrl}>
+							{({ geographies }) =>
+								geographies.map(geo => {
+									const d = data.find(s => s.ISO3 === geo.properties.ISO_A3);
+									return (
+										<Geography
+											key={geo.rsmKey}
+											geography={geo}
+											fill={d ? colorScale(d["2017"]) : "#F5F4F6"}
+										/>
+									);
+								})
+							}
+						</Geographies>
+					)}
+				</ZoomableGroup>
+			</ComposableMap>
+		</Fragment>
 	);
-}
+};
+
+export default MapChart;
