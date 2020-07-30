@@ -14,9 +14,17 @@ const loadCovidUS = (dataUs)=>{
     })
 }
 
+const loadCovidWorld = (dataWorld)=>{
+	return store.dispatch({
+        type: "LOAD_DATA_COVID_WORLD",
+        dataWorld
+    })
+}
+
 const home = {
 	showPage,
-	loadCovidUS
+	loadCovidUS,
+	loadCovidWorld
 }
 
 export default home

@@ -5,7 +5,6 @@ import MapChart from './mapchart'
 const url = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
 export default function USMap(props) {
-	console.log(props)
 	const [content, setContent] = useState({});
 	return (
 		<div style={{ width: "50vw", minWidth: "500px", margin: "auto" }}>

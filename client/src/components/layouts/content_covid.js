@@ -6,6 +6,8 @@ import { httpGet } from "../../methods/axios";
 
 import { covid } from '../../actions'
 
+import covidWorld from '../../data/covidCountries.json'
+
 import WorldMap from '../covid19/worldmap'
 import UsMap from '../covid19/uschart'
 import Nav from '../covid19/nav'
@@ -24,6 +26,12 @@ class ContentCovid extends Component {
 			for (var i = 0; i < r.length; ++i)
 				dataUS[r[i].name] = r[i]
 			covid.loadCovidUS(dataUS)
+
+			var dataWorld = {}
+			for (i = 0; i < covidWorld.length; ++i)
+				dataWorld[covidWorld[i].Country] = covidWorld[i]
+			
+			covid.loadCovidWorld(dataWorld)
 		}
 		catch (e) {
 			console.log(e)
@@ -36,7 +44,7 @@ class ContentCovid extends Component {
 			case 0:
 				return (
 					<div>
-						<WorldMap />
+						<WorldMap dataWorld={this.props.dataWorld}/>
 					</div>
 				)
 			case 1:

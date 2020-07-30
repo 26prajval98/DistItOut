@@ -14,7 +14,6 @@ const MapChart = ({ setTooltipContent, geoUrl, zoom = 1, projection = "geoEqualE
 					<Geographies geography={geoUrl}>
 						{({ geographies }) =>
 							geographies.map(geo => {
-								// console.log(geo.properties)
 								return (
 									<Geography
 										key={geo.rsmKey}

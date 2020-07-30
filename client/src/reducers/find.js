@@ -15,7 +15,6 @@ const findReducer = (
 	switch (action.type) {
 
 		case "SET_CATEGORY": {
-			console.log(action.category)
 			if (valid.indexOf(action.category.toLowerCase()) + 1) {
 				state = { ...state, category: action.category }
 			}
