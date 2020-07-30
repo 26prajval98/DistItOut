@@ -16,6 +16,7 @@
 		"react-scripts": "2.1.8",
 		"react-simple-maps": "^2.1.2",
 		"react-swipeable": "^5.5.1",
+		"react-tooltip": "^4.2.7",
 		"redux": "^4.0.5",
 		"redux-logger": "^3.0.6",
 		"redux-thunk": "^2.3.0"

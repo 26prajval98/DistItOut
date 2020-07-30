@@ -1,6 +1,7 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, memo } from "react";
 import data from '../../data/countries.json'
-import { scaleLinear } from "d3-scale";
+import ReactTooltip from 'react-tooltip'
+
 import {
 	ComposableMap,
 	Geographies,
@@ -13,55 +14,70 @@ import {
 const geoUrl =
 	"https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
-const colorScale = scaleLinear()
-	.domain([0.29, 0.68])
-	.range(["#ffedea", "#ff5233"]);
 
-const MapChart = () => {
-
-	const [position, setPosition] = useState({ coordinates: [0, 0], zoom: 1 });
-
-
-
-	function handleMoveEnd(position) {
-		setPosition(position);
-	}
-
+const MapChart = memo((props) => {
 	return (
-		<Fragment>
+		<div style={{ width: "65vw", minWidth: "500px", paddingTop: "3vh", margin: "auto" }}>
 			<ComposableMap
 				projectionConfig={{
 					rotate: [-10, 0, 0],
 					scale: 147
 				}}
 			>
-				<ZoomableGroup
-					zoom={position.zoom}
-					center={position.coordinates}
-					onMoveEnd={handleMoveEnd}
-				>
+				<ZoomableGroup>
 					<Sphere stroke="#E4E5E6" strokeWidth={0.5} />
 					<Graticule stroke="#E4E5E6" strokeWidth={0.5} />
 					{data.length > 0 && (
 						<Geographies geography={geoUrl}>
 							{({ geographies }) =>
 								geographies.map(geo => {
-									const d = data.find(s => s.ISO3 === geo.properties.ISO_A3);
 									return (
 										<Geography
+											onMouseEnter={() => {
+												const { NAME } = geo.properties;
+												props.setContent(`${NAME}`);
+											}}
+											onMouseLeave={() => {
+												props.setContent("");
+											}}
 											key={geo.rsmKey}
 											geography={geo}
-											fill={d ? colorScale(d["2017"]) : "#F5F4F6"}
+											// fill={d ? colorScale(d["2017"]) : "#F5F4F6"}
+											style={{
+												default: {
+													fill: "#D6D6DA",
+													outline: "none"
+												},
+												hover: {
+													fill: "#F53",
+													outline: "none"
+												},
+												pressed: {
+													fill: "#E42",
+													outline: "none"
+												}
+											}}
 										/>
-									);
+									)
+
 								})
 							}
 						</Geographies>
 					)}
 				</ZoomableGroup>
 			</ComposableMap>
-		</Fragment>
+		</div>
+	)
+})
+
+const Main = () => {
+	const [content, setContent] = useState("");
+	return (
+		<div>
+			<MapChart setContent={setContent} />
+			<ReactTooltip>{content}</ReactTooltip>
+		</div>
 	);
 };
 
-export default MapChart;
+export default Main;
